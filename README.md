@@ -239,4 +239,4 @@ Predictions are printed at the end of the pipeline automatically.
 
 **Uzair**
 BeCode AI & Data Science Bootcamp
-[GitHub](https://github.com/your-username) · [LinkedIn](https://linkedin.com/in/your-profile)
+[GitHub](https://github.com/UzairSaeedKhan) · [LinkedIn](https://linkedin.com/in/uzairsaeedkhan)
