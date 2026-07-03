@@ -33,4 +33,4 @@ def evaluate_model(model, X_train, y_train, X_test, y_test, model_name, cv_score
     print(f"  Test  MAE     : €{test_mae:,.0f}")
     print(f"  Median Price  : €{median_price:,.0f}")
     print(f"  Avg Error     : {mae_pct:.1f}% of median price")
-    print(f"  Overfitting   : {'YES ⚠️' if overfit else 'No ✓'}")
+    print(f"  Overfitting   : {'YES' if overfit else 'No'}")

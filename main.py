@@ -8,7 +8,7 @@ import joblib
 from sklearn.model_selection import train_test_split, cross_val_score
 import numpy as np
 
-from src.preprocess import structural_clean_data, preprocess_data
+from src.preprocess import structural_clean_data
 from src.train     import train_linear_regression, train_random_forest, train_xgboost
 from src.evaluate  import evaluate_model
 from src.predict import predict_from_json
@@ -18,20 +18,17 @@ def main():
     # Load & clean
     print("Loading data...")
     df = pd.read_csv("./data/raw/half_cleaned_properties.csv")
-    # df = pd.read_csv("./data/raw/scraped_properties.csv")
     df = structural_clean_data(df)
     df.to_csv("./data/cleaned/properties_for_ml.csv", index=False)
     # Split
     train_df, test_df = train_test_split(df, test_size=0.2, random_state=42)
     print(f"Train size: {len(train_df)} | Test size: {len(test_df)}")
 
-    # Preprocess
-    X_train, y_train, scaler, feature_cols = preprocess_data(train_df, fit=True)
-    X_test,  y_test, _, _ = preprocess_data(test_df, scaler=scaler, fit=False, feature_columns=feature_cols)
-
-    # Save scaler
-    joblib.dump(scaler, "./models/scaler.joblib")
-    joblib.dump(feature_cols, "./models/feature_columns.joblib")
+    X_train = train_df.drop(columns=["price"])
+    y_train = np.log1p(train_df["price"])
+    X_test  = test_df.drop(columns=["price"])
+    y_test  = np.log1p(test_df["price"])
+    
     # Train
     models = {
         "Linear Regression": train_linear_regression(X_train, y_train),
