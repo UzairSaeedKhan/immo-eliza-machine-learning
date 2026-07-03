@@ -1,7 +1,7 @@
 """
 This file has following functions: 
 structural_clean_data(): Deterministic cleaning before train/test split.
-preprocess_data(): Stat-based transforms after split (impute, encode, scale).
+build_preprocessor(): Builds a ColumnTransformer pipeline for imputing, encoding, and scaling.
 """
 
 import numpy as np
@@ -79,70 +79,6 @@ def structural_clean_data(df: pd.DataFrame) -> pd.DataFrame:
     print(f"[structural_clean_data] Final shape: {df.shape}")
     return df
 
-
-# ── preprocess_data ───────────────────────────────────────────────────────────
-
-# def preprocess_data(df: pd.DataFrame, scaler: StandardScaler = None, fit: bool = True, feature_columns: list = None):
-#     """
-#     Stat-based preprocessing that will run separately on train and test splits.
-
-#     Parameters:
-#     df     : Output of structural_clean_data(), already split.
-#     scaler : Fitted StandardScaler for test/predict calls (set fit=False).
-#              Leave None when fitting on training data.
-#     fit    : True  → fit & transform (training data).
-#              False → transform only   (test / prediction data).
-
-#     Returns:
-#     X      : pd.DataFrame   — feature matrix ready for modelling.
-#     y      : pd.Series      — log-transformed target.
-#     scaler : fitted StandardScaler — save alongside your model.
-#     """
-#     df = df.copy()
-
-#     # Separate target
-#     if "price" in df.columns:
-#         df["price"] = np.log1p(df["price"])
-#         y = df["price"]
-#         df = df.drop(columns=["price"])
-#     else:
-#         y = None
-
-#     # Impute numeric → median
-#     num_cols_present = [c for c in NUMERIC_COLS if c in df.columns]
-#     if num_cols_present:
-#         num_imputer = SimpleImputer(strategy="median")
-#         df[num_cols_present] = num_imputer.fit_transform(df[num_cols_present])
-
-#     # Impute categorical → most frequent
-#     cat_cols_present = [c for c in CATEGORICAL_COLS if c in df.columns]
-#     if cat_cols_present:
-#         cat_imputer = SimpleImputer(strategy="most_frequent")
-#         df[cat_cols_present] = cat_imputer.fit_transform(df[cat_cols_present])
-
-#     # Binary NaNs → 0 (unknown amenity treated as absent)
-#     bin_cols_present = [c for c in BINARY_COLS if c in df.columns]
-#     df[bin_cols_present] = df[bin_cols_present].fillna(0).astype(int)
-
-#     # One-hot encode — drop_first avoids dummy variable trap for linear regression
-#     df = pd.get_dummies(df, columns=cat_cols_present, drop_first=True)
-
-#     if fit:
-#         feature_columns = df.columns.tolist()
-#     else:
-#         df = df.reindex(columns=feature_columns, fill_value=0)
-
-#     # Standardise numeric columns
-#     num_cols_present = [c for c in NUMERIC_COLS if c in df.columns]
-#     if fit:
-#         scaler = StandardScaler()
-#         df[num_cols_present] = scaler.fit_transform(df[num_cols_present])
-#     else:
-#         if scaler is None:
-#             raise ValueError("Pass a fitted scaler when fit=False.")
-#         df[num_cols_present] = scaler.transform(df[num_cols_present])
-
-#     return df, y, scaler, feature_columns
 
 def build_preprocessor():
     """Builds a ColumnTransformer pipeline for imputing, encoding, and scaling."""

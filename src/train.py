@@ -4,12 +4,9 @@ One function per model. Called from main.py with preprocessed data.
 
 import os
 import joblib
-from sklearn.linear_model import LinearRegression
-from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
 import pandas as pd
 from sklearn.model_selection import RandomizedSearchCV
-import numpy as np
 from sklearn.pipeline import Pipeline
 from src.preprocess import build_preprocessor
 

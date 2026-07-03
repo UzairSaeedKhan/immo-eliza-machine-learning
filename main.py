@@ -4,7 +4,6 @@ Orchestrates the full ML pipeline:
 """
 
 import pandas as pd
-import joblib
 from sklearn.model_selection import train_test_split, cross_val_score
 import numpy as np
 
@@ -20,6 +19,7 @@ def main():
     df = pd.read_csv("./data/raw/half_cleaned_properties.csv")
     df = structural_clean_data(df)
     df.to_csv("./data/cleaned/properties_for_ml.csv", index=False)
+    
     # Split
     train_df, test_df = train_test_split(df, test_size=0.2, random_state=42)
     print(f"Train size: {len(train_df)} | Test size: {len(test_df)}")
@@ -36,6 +36,7 @@ def main():
     xgb_cv = np.mean(cross_val_score(xgb_model, X_train, y_train, cv=5, scoring="r2"))
     evaluate_model(xgb_model, X_train, y_train, X_test, y_test, "XGBoost", cv_score=xgb_cv)
 
+    # Prediction
     print("\n═══ Predictions on Test Properties ═══")
     predict_from_json()
 
