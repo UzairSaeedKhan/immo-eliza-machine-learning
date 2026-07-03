@@ -155,11 +155,11 @@ min_child_weight = 5
 
 ## 📉 Visualisations
 
-### XGBoost: How Close Are Predicted Prices to Actual Prices?
-![Actual vs Predicted](assets/actual_vs_predicted.png)
-
 ### Top 5 Most Influential Features in XGBoost Price Prediction
 ![Feature Importance](assets/feature_importance.png)
+
+### XGBoost: How Close Are Predicted Prices to Actual Prices?
+![Actual vs Predicted](assets/actual_vs_predicted.png)
 
 ---
 
