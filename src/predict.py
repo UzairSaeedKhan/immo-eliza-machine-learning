@@ -18,11 +18,7 @@ PREDICTIONS_FILE  = "./test_prediction.json"
 
 
 def predict_from_json(json_path: str = PREDICTIONS_FILE):
-    models = {
-        "Linear Regression": joblib.load(f"{MODELS_DIR}/linear_regression.joblib"),
-        "Random Forest":     joblib.load(f"{MODELS_DIR}/random_forest.joblib"),
-        "XGBoost":           joblib.load(f"{MODELS_DIR}/xgboost.joblib"),
-    }
+    model = joblib.load(f"{MODELS_DIR}/xgboost.joblib")
 
     with open(json_path, "r") as f:
         properties = json.load(f)
@@ -31,9 +27,6 @@ def predict_from_json(json_path: str = PREDICTIONS_FILE):
         description = prop.pop("_description", "Unknown property")
         df = pd.DataFrame([prop])
 
-        print(f"\n📍 {description}")
-        print(f"   {'Model':<22} {'Predicted Price':>15}")
-        print(f"   {'-'*38}")
-        for name, model in models.items():
-            price = np.expm1(model.predict(df)[0])
-            print(f"   {name:<22} €{price:>14,.0f}")
+        print(f"\n {description}")
+        price = np.expm1(model.predict(df)[0])
+        print(f"   XGBoost prediction: €{price:>,.0f}")

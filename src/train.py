@@ -23,43 +23,6 @@ def _save(model, filename):
     joblib.dump(model, os.path.join(MODELS_DIR, filename))
     print(f"  Saved → models/{filename}")
 
-
-def train_linear_regression(X_train, y_train):
-    """Baseline linear model."""
-    print("Training Linear Regression...")
-    model = Pipeline(steps=[
-        ("preprocessor", build_preprocessor()),
-        ("model",        RandomForestRegressor())
-    ])
-    model.fit(X_train, y_train)
-    _save(model, "linear_regression.joblib")
-    return model
-
-
-def train_random_forest(X_train, y_train):
-    """Non-linear ensemble wrapped in preprocessing pipeline."""
-    print("Training Random Forest...")
-    model = Pipeline(steps=[
-        ("preprocessor", build_preprocessor()),
-        ("model", RandomForestRegressor(
-            n_estimators=100,
-            max_depth=20,
-            min_samples_leaf=10,
-            max_features=0.5,
-            random_state=RANDOM_STATE,
-            n_jobs=-1,
-        ))
-    ])
-    model.fit(X_train, y_train)
-    importances = pd.Series(
-        model.named_steps["model"].feature_importances_,
-        index=model.named_steps["preprocessor"].get_feature_names_out()
-    )
-    # print(f"Important values for random forest: {importances.sort_values(ascending=False).head(15)}")
-    _save(model, "random_forest.joblib")
-    return model
-
-
 def train_xgboost(X_train, y_train):
     """XGBoost with RandomizedSearchCV hyperparameter tuning."""
     print("Training XGBoost with RandomizedSearchCV...")

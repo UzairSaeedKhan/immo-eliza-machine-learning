@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.metrics import r2_score, mean_absolute_error
 
 
-def evaluate_model(model, X_train, y_train, X_test, y_test, model_name, cv_score=None):
+def evaluate_model(model, X_train, y_train, X_test, y_test, model_name, cv_score):
     """
     Prints R², MSE, MAE on test set and flags overfitting if
     train R² exceeds test R² by more than 0.1.
@@ -28,8 +28,7 @@ def evaluate_model(model, X_train, y_train, X_test, y_test, model_name, cv_score
     print(f"\n {model_name} scores")
     print(f"  Train R²      : {train_r2:.4f}")
     print(f"  Test  R²      : {test_r2:.4f}")
-    if cv_score is not None:
-        print(f"  CV R²         : {cv_score:.4f}")
+    print(f"  CV R²         : {cv_score:.4f}")
     print(f"  Test  MAE     : €{test_mae:,.0f}")
     print(f"  Median Price  : €{median_price:,.0f}")
     print(f"  Avg Error     : {mae_pct:.1f}% of median price")
