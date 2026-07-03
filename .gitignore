@@ -1,0 +1,5 @@
+linear_regression.joblib
+.DS_Store
+*.pyc
+scraped_properties_ml_profile.txt
+half_cleaned_properties_ml_profile.txt
